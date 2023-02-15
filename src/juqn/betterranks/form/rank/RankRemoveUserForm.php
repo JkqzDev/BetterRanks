@@ -14,7 +14,7 @@ use pocketmine\player\Player;
 
 final class RankRemoveUserForm extends ModalForm {
 
-    public function __construct(private string $xuid, private ?string $name = null) {
+    public function __construct(private string $xuid) {
         parent::__construct('Remove Rank To User', 'Are you sure that you want to remove User\'s rank? His/her rank will be converted to the default rank');
 
         $this->setFirstButton('Sure!');
@@ -27,15 +27,7 @@ final class RankRemoveUserForm extends ModalForm {
         if ($session !== null) {
             $session->setRank(RankFactory::get(BetterRanks::getInstance()->getConfig()->get('rank-default', 'user')));
         } else {
-            MySQL::runAsync(new UpdateAsync(
-                'ranks',
-                [
-                    'rank_name' => BetterRanks::getInstance()->getConfig()->get('rank-default', 'user')
-                ],
-                [
-                    'xuid' => $this->xuid
-                ]
-            ));
+            MySQL::runAsync(new UpdateAsync('ranks', ['rank_name' => BetterRanks::getInstance()->getConfig()->get('rank-default', 'user')], ['xuid' => $this->xuid]));
         }
     }
 

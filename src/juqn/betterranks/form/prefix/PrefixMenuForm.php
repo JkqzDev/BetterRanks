@@ -14,7 +14,8 @@ final class PrefixMenuForm extends SimpleForm {
     public function __construct() {
         parent::__construct('Prefix Menu', 'Select a option!');
         $buttons = [
-            '&fPrefix List' => new PrefixListMenuForm()
+            '&fPrefix List' => new PrefixListMenuForm(),
+            '&fManage User' => new PrefixManageUserForm()
         ];
 
         foreach ($buttons as $title => $form) {

@@ -11,11 +11,11 @@ use pocketmine\utils\TextFormat;
 
 final class RankUserMenuForm extends SimpleForm {
 
-    public function __construct(string $xuid, ?string $name = null) {
+    public function __construct(string $xuid) {
         parent::__construct('User Rank Menu');
         $buttons = [
-            '&aSet Rank' => new RankSetUserForm($xuid, $name),
-            '&cRemove Rank' => new RankRemoveUserForm($xuid, $name),
+            '&aSet Rank' => new RankSetUserForm($xuid),
+            '&cRemove Rank' => new RankRemoveUserForm($xuid),
             '&4Back' => new RankManageUserForm(),
         ];
 

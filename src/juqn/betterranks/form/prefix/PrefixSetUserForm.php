@@ -15,7 +15,7 @@ use pocketmine\utils\TextFormat;
 
 final class PrefixSetUserForm extends SimpleForm {
 
-    public function __construct(string $xuid, ?string $name = null) {
+    public function __construct(string $xuid) {
         parent::__construct('Set Prefix to User');
         $session = SessionFactory::get($xuid);
         $prefixes = PrefixFactory::getAll();
@@ -31,15 +31,7 @@ final class PrefixSetUserForm extends SimpleForm {
             foreach ($prefixes as $prefix) {
                 $this->addButton(
                     new Button(TextFormat::colorize($prefix->getFormat() . PHP_EOL . '&fExample: ' . $prefix->getFormat() . ' &7JuqnGOOD')),
-                    fn(Player $player, int $button_index) => MySQL::runAsync(new UpdateAsync(
-                        'ranks',
-                        [
-                            'prefix_name' => $prefix->getName()
-                        ],
-                        [
-                            'xuid' => $xuid
-                        ]
-                    ))
+                    fn(Player $player, int $button_index) => MySQL::runAsync(new UpdateAsync('ranks', ['prefix_name' => $prefix->getName()], ['xuid' => $xuid]))
                 );
             }
         }

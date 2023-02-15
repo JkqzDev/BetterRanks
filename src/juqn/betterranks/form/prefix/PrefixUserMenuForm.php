@@ -11,12 +11,12 @@ use pocketmine\utils\TextFormat;
 
 final class PrefixUserMenuForm extends SimpleForm {
 
-    public function __construct(string $xuid, ?string $name = null) {
+    public function __construct(string $xuid) {
         parent::__construct('User Prefix Menu');
 
         $buttons = [
-            '&aSet Prefix' => new PrefixSetUserForm($xuid, $name),
-            '&cRemove Prefix' => new PrefixRemoveUserForm($xuid, $name),
+            '&aSet Prefix' => new PrefixSetUserForm($xuid),
+            '&cRemove Prefix' => new PrefixRemoveUserForm($xuid),
             '&4Back' => new PrefixManageUserForm(),
         ];
 

@@ -24,17 +24,9 @@ final class Session {
         private Rank $rank,
         private ?Prefix $prefix = null
     ) {
-        MySQL::runAsync(new SelectQuery(
-            'ranks',
-            [
-                'xuid' => $xuid
-            ],
-            '',
-            function (array $rows): void {
+        MySQL::runAsync(new SelectQuery('ranks', ['xuid' => $xuid], '', function (array $rows): void {
                 if (count($rows) === 0) {
-                    MySQL::runAsync(new InsertQuery(
-                        'ranks',
-                        [
+                    MySQL::runAsync(new InsertQuery('ranks', [
                             'xuid' => $this->xuid,
                             'name' => $this->name,
                             'rank_name' => BetterRanks::getInstance()->getConfig()->get('rank-default', 'user')
@@ -114,43 +106,19 @@ final class Session {
     public function setName(string $name): void {
         $this->name = $name;
 
-        MySQL::runAsync(new UpdateAsync(
-            'ranks',
-            [
-                'name' => $this->getName(),
-            ],
-            [
-                'xuid' => $this->getXuid()
-            ]
-        ));
+        MySQL::runAsync(new UpdateAsync('ranks', ['name' => $this->getName(),], ['xuid' => $this->getXuid()]));
     }
 
     public function setRank(Rank $rank): void {
         $this->rank = $rank;
 
-        MySQL::runAsync(new UpdateAsync(
-            'ranks',
-            [
-                'rank_name' => $rank->getName()
-            ],
-            [
-                'xuid' => $this->getXuid()
-            ]
-        ));
+        MySQL::runAsync(new UpdateAsync('ranks', ['rank_name' => $rank->getName()], ['xuid' => $this->getXuid()]));
     }
 
     public function setPrefix(?Prefix $prefix): void {
         $this->prefix = $prefix;
 
-        MySQL::runAsync(new UpdateAsync(
-            'ranks',
-            [
-                'prefix_name' => $prefix?->getName() ?? 'default'
-            ],
-            [
-                'xuid' => $this->getXuid()
-            ]
-        ));
+        MySQL::runAsync(new UpdateAsync('ranks', ['prefix_name' => $prefix?->getName() ?? 'default'], ['xuid' => $this->getXuid()]));
     }
 
     public function updatePermissions(Player $player): void {

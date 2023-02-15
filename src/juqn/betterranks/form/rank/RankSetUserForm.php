@@ -18,7 +18,7 @@ use pocketmine\utils\TextFormat;
 
 final class RankSetUserForm extends SimpleForm {
 
-    public function __construct(string $xuid, ?string $name = null) {
+    public function __construct(string $xuid) {
         parent::__construct('Set Rank to User');
         $session = SessionFactory::get($xuid);
         $ranks = RankFactory::getAll();
@@ -35,16 +35,7 @@ final class RankSetUserForm extends SimpleForm {
             foreach ($ranks as $rank) {
                 $this->addButton(
                     new Button(TextFormat::colorize($rank->getFormat() . PHP_EOL . '&fExample: ' . $rank->getFormat() . ' &7JuqnGOOD')),
-                    fn(Player $player, int $button_index) => MySQL::runAsync(new UpdateAsync(
-                        'ranks',
-                        [
-                            'rank_name' => $rank->getName()
-                        ],
-                        [
-                            'xuid' => $xuid
-                        ]
-                    ))
-                );
+                    fn(Player $player, int $button_index) => MySQL::runAsync(new UpdateAsync('ranks', ['rank_name' => $rank->getName()], ['xuid' => $xuid])));
             }
         }
     }
