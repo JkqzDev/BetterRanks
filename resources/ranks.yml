@@ -1,4 +1,5 @@
 user:
-  nametag-format: '{faction}&e[User] &7{player}'
-  chat-format: '{faction}{prefix}&e[User] &7{player}: &f{message}'
+  rank-format: '&e[User]'
+  nametag-format: '{faction}{rank} &7{player}'
+  chat-format: '{faction}{prefix}{rank} &7{player}: &f{message}'
   permissions: []

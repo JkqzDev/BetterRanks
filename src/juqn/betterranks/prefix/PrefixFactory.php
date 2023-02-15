@@ -12,6 +12,10 @@ final class PrefixFactory {
     /** @var Prefix[] */
     private static array $prefixes = [];
 
+    public static function getAll(): array {
+        return self::$prefixes;
+    }
+
     public static function get(string $name): ?Prefix {
         return self::$prefixes[$name] ?? null;
     }

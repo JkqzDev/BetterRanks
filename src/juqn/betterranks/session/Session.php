@@ -19,6 +19,7 @@ final class Session {
 
     public function __construct(
         private string $xuid,
+        private string $uuid,
         private string $name,
         private Rank $rank,
         private ?Prefix $prefix = null
@@ -41,8 +42,8 @@ final class Session {
                     ));
                 } else {
                     $data = $rows[0];
-                    $rankName = $rows['rank_name'];
-                    $prefixName = $rows['prefix_name'];
+                    $rankName = $data['rank_name'];
+                    $prefixName = $data['prefix_name'];
 
                     $rank = RankFactory::get($rankName);
                     $prefix = $prefixName === 'default' ? null : PrefixFactory::get($prefixName);
@@ -79,7 +80,7 @@ final class Session {
                 $factionName = $faction->getName() . ' ';
             }
         }
-        return str_replace(['{faction}' , '{prefix}', '{player}', '{message}'], [$factionName, $prefix?->getFormat() . ' ' ?? '', $player->getName(), $message], $rank->getChatFormat());
+        return str_replace(['{faction}', '{prefix}', '{rank}', '{player}', '{message}'], [$factionName, $prefix?->getFormat() . ' ' ?? '', $rank->getFormat(), $player->getName(), $message], $rank->getChatFormat());
     }
 
     public function getNametagFormat(Player $player): string {
@@ -91,7 +92,7 @@ final class Session {
             $session = \kitmap\session\SessionFactory::get($player);
             $faction = $session?->getFaction()?->getName() . ' ' ?? '';
         }
-        return str_replace(['{faction}', '{prefix}', '{player}'], [$faction, $prefix?->getFormat() ?? '', $player->getName()], $rank->getNametagFormat());
+        return str_replace(['{faction}', '{prefix}', '{rank}', '{player}'], [$faction, $prefix?->getFormat() ?? '', $rank->getFormat(), $player->getName()], $rank->getNametagFormat());
     }
 
     public function getRank(): Rank {
@@ -100,6 +101,14 @@ final class Session {
 
     public function getPrefix(): ?Prefix {
         return $this->prefix;
+    }
+
+    public function getPlayer(): ?Player {
+        return BetterRanks::getInstance()->getServer()->getPlayerByRawUUID($this->uuid);
+    }
+
+    public function isOnline(): bool {
+        return $this->getPlayer() !== null;
     }
 
     public function setName(string $name): void {

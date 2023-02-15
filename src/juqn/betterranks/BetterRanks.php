@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace juqn\betterranks;
 
+use juqn\betterranks\command\ListCommand;
+use juqn\betterranks\command\PrefixCommand;
+use juqn\betterranks\command\RankCommand;
 use juqn\betterranks\database\mysql\MySQL;
 use juqn\betterranks\database\mysql\Tables;
 use juqn\betterranks\prefix\PrefixFactory;
@@ -28,6 +31,10 @@ final class BetterRanks extends PluginBase {
 
         $this->checkConfigVersion();
         $this->checkExtensions();
+
+        $this->unregisterCommands();
+
+        $this->registerCommands();
         $this->registerHandler();
     }
 
@@ -40,6 +47,7 @@ final class BetterRanks extends PluginBase {
     private function checkConfigVersion(): void {
         if ($this->getConfig()->get('config-version', 1.0) !== 1.0) {
             $this->getLogger()->error('Plugin version invalid!');
+            sleep(1);
             $this->getServer()->shutdown();
         }
     }
@@ -50,9 +58,33 @@ final class BetterRanks extends PluginBase {
 
             if (!$kitMap_plugin->isEnabled()) {
                 $this->getLogger()->error('Plugin KitMap not exists in the server.');
+                sleep(1);
                 $this->getServer()->shutdown();
             }
         }
+    }
+
+    private function unregisterCommands(): void {
+        $commands = [
+            'list'
+        ];
+
+        foreach ($commands as $commandName) {
+            $command = $this->getServer()->getCommandMap()->getCommand($commandName);
+
+            if ($command !== null) {
+                $this->getServer()->getCommandMap()->unregister($command);
+            }
+        }
+    }
+
+    private function registerCommands(): void {
+        $commands = [
+            new ListCommand,
+            new PrefixCommand,
+            new RankCommand
+        ];
+        $this->getServer()->getCommandMap()->registerAll('Ranks', $commands);
     }
 
     private function registerHandler(): void {

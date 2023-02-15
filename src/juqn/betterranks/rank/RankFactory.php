@@ -12,6 +12,10 @@ final class RankFactory {
     /** @var Rank[] */
     private static array $ranks = [];
 
+    public static function getAll(): array {
+        return self::$ranks;
+    }
+
     public static function get(string $name): ?Rank {
         return self::$ranks[$name] ?? null;
     }
@@ -22,8 +26,8 @@ final class RankFactory {
         $priority = 0;
 
         foreach ($data as $name => $rank) {
-            self::$ranks[$name] = new Rank($name, $rank['nametag-format'], $rank['chat-format'], $priority++, $rank['permissions'] ?? []);
+            self::$ranks[$name] = new Rank($name, $rank['format'], $rank['nametag-format'], $rank['chat-format'], $priority++, $rank['permissions'] ?? []);
         }
-        BetterRanks::getInstance()->getLogger()->info('Rank loaded ' . count(self::$ranks));
+        BetterRanks::getInstance()->getLogger()->info('Ranks loaded ' . count(self::$ranks));
     }
 }

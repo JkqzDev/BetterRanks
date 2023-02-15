@@ -11,10 +11,15 @@ use RuntimeException;
 
 final class SessionFactory {
 
+    /** @var Session[] */
     private static array $sessions = [];
 
-    public static function get(Player $player): ?Session {
-        return self::$sessions[$player->getXuid()] ?? null;
+    public static function getAll(): array {
+        return self::$sessions;
+    }
+
+    public static function get(Player|string $player): ?Session {
+        return self::$sessions[$player instanceof Player ? $player->getXuid() : $player] ?? null;
     }
 
     public static function create(Player $player): void {
@@ -23,7 +28,7 @@ final class SessionFactory {
         if ($rank === null) {
             throw new RuntimeException('Default rank not exist.');
         }
-        self::$sessions[$player->getXuid()] = $session = new Session($player->getXuid(), $player->getName(), $rank);
+        self::$sessions[$player->getXuid()] = $session = new Session($player->getXuid(), $player->getName(), $player->getUniqueId()->getBytes(), $rank);
         $session->updatePermissions($player);
     }
 }

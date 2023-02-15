@@ -8,6 +8,7 @@ final class Rank {
 
     /**
      * @param string $name
+     * @param string $format
      * @param string $nametagFormat
      * @param string $chatFormat
      * @param int $priority
@@ -15,6 +16,7 @@ final class Rank {
      */
     public function __construct(
         private string $name,
+        private string $format,
         private string $nametagFormat,
         private string $chatFormat,
         private int $priority,
@@ -23,6 +25,10 @@ final class Rank {
 
     public function getName(): string {
         return $this->name;
+    }
+
+    public function getFormat(): string {
+        return $this->format;
     }
 
     public function getNametagFormat(): string {

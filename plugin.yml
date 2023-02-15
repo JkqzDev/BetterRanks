@@ -1,5 +1,10 @@
-name: BetterRanks
+name: Ranks
 version: 1.0
 author: JuqnGOOD
 api: 4.0.0
 main: juqn\betterranks\BetterRanks
+permissions:
+  prefix.command:
+    default: op
+  rank.command:
+    default: op
