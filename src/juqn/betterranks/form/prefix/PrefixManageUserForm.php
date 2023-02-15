@@ -6,6 +6,9 @@ namespace juqn\betterranks\form\prefix;
 
 use cosmicpe\form\CustomForm;
 use cosmicpe\form\entries\custom\InputEntry;
+use juqn\betterranks\database\mysql\MySQL;
+use juqn\betterranks\database\mysql\query\SelectQuery;
+use juqn\betterranks\form\rank\RankUserMenuForm;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 
@@ -20,6 +23,23 @@ final class PrefixManageUserForm extends CustomForm {
             if ($target instanceof Player) {
                 $xuid = $target->getXuid();
                 $player->sendForm(new PrefixUserMenuForm($xuid));
+            } else {
+                MySQL::runAsync(new SelectQuery(
+                    'ranks',
+                    [
+                        'name' => $value
+                    ],
+                    '',
+                    function (array $rows) use ($player): void {
+                        if (count($rows) === 0) {
+                            $player->sendMessage(TextFormat::colorize('&cPlayer not found.'));
+                        } else {
+                            $data = $rows[0];
+
+                            $player->sendForm(new PrefixUserMenuForm($data['xuid']));
+                        }
+                    }
+                ));
             }
         });
     }

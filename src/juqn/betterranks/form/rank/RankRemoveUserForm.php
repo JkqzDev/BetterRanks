@@ -6,6 +6,8 @@ namespace juqn\betterranks\form\rank;
 
 use cosmicpe\form\ModalForm;
 use juqn\betterranks\BetterRanks;
+use juqn\betterranks\database\mysql\MySQL;
+use juqn\betterranks\database\mysql\query\UpdateAsync;
 use juqn\betterranks\rank\RankFactory;
 use juqn\betterranks\session\SessionFactory;
 use pocketmine\player\Player;
@@ -24,6 +26,16 @@ final class RankRemoveUserForm extends ModalForm {
 
         if ($session !== null) {
             $session->setRank(RankFactory::get(BetterRanks::getInstance()->getConfig()->get('rank-default', 'user')));
+        } else {
+            MySQL::runAsync(new UpdateAsync(
+                'ranks',
+                [
+                    'rank_name' => BetterRanks::getInstance()->getConfig()->get('rank-default', 'user')
+                ],
+                [
+                    'xuid' => $this->xuid
+                ]
+            ));
         }
     }
 

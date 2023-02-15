@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace juqn\betterranks\form\prefix;
 
 use cosmicpe\form\ModalForm;
+use juqn\betterranks\database\mysql\MySQL;
+use juqn\betterranks\database\mysql\query\UpdateAsync;
 use juqn\betterranks\session\SessionFactory;
 use pocketmine\player\Player;
 
@@ -22,6 +24,16 @@ final class PrefixRemoveUserForm extends ModalForm {
 
         if ($session !== null) {
             $session->setPrefix(null);
+        } else {
+            MySQL::runAsync(new UpdateAsync(
+                'ranks',
+                [
+                    'prefix_name' => 'default'
+                ],
+                [
+                    'xuid' => $this->xuid
+                ]
+            ));
         }
     }
 
