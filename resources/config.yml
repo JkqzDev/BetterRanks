@@ -1,0 +1,17 @@
+# Config version
+# Don't touch or you have problem with the plugin
+config-version: 1.0
+
+# Ranks
+rank-default: 'user'
+rank-chat.format: true
+rank-nametag.format: false
+
+
+# MySQL Credentials.
+mysql:
+  hostname: 'localhost'
+  username: 'juqn'
+  password: 'juqn1'
+  database: 'messi'
+  port: 3306

@@ -1,0 +1,4 @@
+user:
+  nametag-format: '&e[User] &7{player}'
+  chat-format: '{prefix}&e[User] &7{player}: &f{message}'
+  permissions: []
