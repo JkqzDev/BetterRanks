@@ -26,7 +26,7 @@ final class RankFactory {
         $priority = 0;
 
         foreach ($data as $name => $rank) {
-            self::$ranks[$name] = new Rank($name, $rank['format'], $rank['nametag-format'], $rank['chat-format'], $priority++, $rank['permissions'] ?? []);
+            self::$ranks[$name] = new Rank($name, $rank['rank-format'], $rank['nametag-format'], $rank['chat-format'], $priority++, $rank['permissions'] ?? []);
         }
         BetterRanks::getInstance()->getLogger()->info('Ranks loaded ' . count(self::$ranks));
     }

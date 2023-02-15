@@ -82,7 +82,7 @@ final class Session {
 
         if (BetterRanks::getInstance()->getConfig()->get('plugin-extension.enable', false)) {
             $session = \kitmap\session\SessionFactory::get($player);
-            $faction = $session?->getFaction()?->getName() . ' ' ?? '';
+            $faction = $session?->getFaction() === null ? '' : $session->getFaction()->getName();
         }
         return str_replace(['{faction}', '{prefix}', '{rank}', '{player}'], [$faction, $prefix?->getFormat() ?? '', $rank->getFormat(), $player->getName()], $rank->getNametagFormat());
     }
