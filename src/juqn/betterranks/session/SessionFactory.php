@@ -23,6 +23,7 @@ final class SessionFactory {
         if ($rank === null) {
             throw new RuntimeException('Default rank not exist.');
         }
-        self::$sessions[$player->getXuid()] = new Session($player->getXuid(), $player->getName(), $rank);
+        self::$sessions[$player->getXuid()] = $session = new Session($player->getXuid(), $player->getName(), $rank);
+        $session->updatePermissions($player);
     }
 }

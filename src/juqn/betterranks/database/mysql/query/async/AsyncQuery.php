@@ -12,7 +12,18 @@ abstract class AsyncQuery extends AsyncTask {
 
     private bool $failed = false;
 
+    private string $host, $username, $password, $database;
+    private int $port;
+
     abstract public function query(mysqli $mysqli): void;
+
+    public function setHost(array $credentials): void {
+        $this->host = $credentials[0];
+        $this->username = $credentials[1];
+        $this->password = $credentials[2];
+        $this->database = $credentials[3];
+        $this->port = $credentials[4];
+    }
 
     public function isFailed(): bool {
         return $this->failed;
@@ -20,7 +31,7 @@ abstract class AsyncQuery extends AsyncTask {
 
     public function onRun(): void {
         try {
-            $mysql = MySQL::new();
+            $mysql = new mysqli($this->host, $this->username, $this->password, $this->database, $this->port);
             $this->query($mysql);
             $mysql->close();
         } catch (\mysqli_sql_exception $exception) {

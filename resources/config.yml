@@ -7,6 +7,9 @@ rank-default: 'user'
 rank-chat.format: true
 rank-nametag.format: false
 
+# Plugin Extension
+plugin-extension.enable: false
+plugin-extension.kitmap: 'KitMap'
 
 # MySQL Credentials.
 mysql:
