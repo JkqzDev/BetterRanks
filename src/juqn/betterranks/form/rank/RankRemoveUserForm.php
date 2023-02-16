@@ -15,7 +15,7 @@ use pocketmine\player\Player;
 final class RankRemoveUserForm extends ModalForm {
 
     public function __construct(private string $xuid) {
-        parent::__construct('Remove Rank To User', 'Are you sure that you want to remove User\'s rank? His/her rank will be converted to the default rank');
+        parent::__construct('Remove Rank To User', 'Are you sure you want to remove the player rank?');
 
         $this->setFirstButton('Sure!');
         $this->setSecondButton('Nop.');

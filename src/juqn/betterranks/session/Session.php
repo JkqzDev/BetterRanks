@@ -72,7 +72,7 @@ final class Session {
                 $factionName = $faction->getName() . ' ';
             }
         }
-        return str_replace(['{faction}', '{prefix}', '{rank}', '{player}', '{message}'], [$factionName, $prefix?->getFormat() . ' ' ?? '', $rank->getFormat(), $player->getName(), $message], $rank->getChatFormat());
+        return str_replace(['{faction}', '{prefix}', '{rank}', '{player}', '{message}'], [$factionName, $prefix !== null ? $prefix->getFormat() . ' ' : '', $rank->getFormat(), $player->getName(), $message], $rank->getChatFormat());
     }
 
     public function getNametagFormat(Player $player): string {
@@ -84,7 +84,7 @@ final class Session {
             $session = \kitmap\session\SessionFactory::get($player);
             $faction = $session?->getFaction() === null ? '' : $session->getFaction()->getName();
         }
-        return str_replace(['{faction}', '{prefix}', '{rank}', '{player}'], [$faction, $prefix?->getFormat() ?? '', $rank->getFormat(), $player->getName()], $rank->getNametagFormat());
+        return str_replace(['{faction}', '{prefix}', '{rank}', '{player}'], [$faction, $prefix !== null ? $prefix->getFormat() . ' ' : '', $rank->getFormat(), $player->getName()], $rank->getNametagFormat());
     }
 
     public function getRank(): Rank {

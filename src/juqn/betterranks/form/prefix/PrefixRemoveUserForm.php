@@ -13,7 +13,7 @@ use pocketmine\player\Player;
 final class PrefixRemoveUserForm extends ModalForm {
 
     public function __construct(private string $xuid) {
-        parent::__construct('Remove Prefix To User', 'Are you sure that you want to remove User\'s prefix?');
+        parent::__construct('Remove Prefix To User', 'Are you sure you want to remove the player prefix?');
 
         $this->setFirstButton('Sure!');
         $this->setSecondButton('Nop.');

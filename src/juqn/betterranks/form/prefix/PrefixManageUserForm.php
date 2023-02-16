@@ -17,7 +17,7 @@ final class PrefixManageUserForm extends CustomForm {
     public function __construct() {
         parent::__construct('Prefix Manage User');
 
-        $this->addEntry(new InputEntry(TextFormat::colorize('&7Player Username')), function (Player $player, InputEntry $entry, string $value): void {
+        $this->addEntry(new InputEntry(TextFormat::colorize('&7Player name')), function (Player $player, InputEntry $entry, string $value): void {
             $target = $player->getServer()->getPlayerByPrefix($value);
 
             if ($target instanceof Player) {
